@@ -1,7 +1,15 @@
+'use strict';
+
 const express = require('express');
+const dotenv = require('dotenv');
 const app = express();
 const superagent = require('superagent');
+
+dotenv.config();
+
 const PORT = process.env.PORT || 3000;
+
+app.use(express.static('public'))
 
 app.set('view engine', 'ejs');
 
@@ -10,7 +18,11 @@ function createSEarch(req, res){
 }
 
 app.get('/', (req, res) =>{
-    res.render(
+    res.send('hello world');
+});
+
+app.get('/hello', (req, res) => {
+    res.render('pages/index');
 });
 
 app.listen(PORT, () =>{
