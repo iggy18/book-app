@@ -19,18 +19,22 @@ function Book (book){
     this.cover = book.img_url || `https://i.imgur.com/J5LVHEL.jpg`;
 }
 
-function createSEarch(req, res) {
-    let url = `https`
+function createSearch(req, res) {
+  let url = `https`;
 }
 
 app.get('/', (req, res) => {
-    res.send('hello world');
+  res.send('hello world');
 });
 
 app.get('/hello', (req, res) => {
-    res.render('pages/index');
+  res.render('pages/index');
+});
+
+app.get('/search/new', (req, res) => {
+  res.render('pages/searches/new');
 });
 
 app.listen(PORT, () => {
-    console.log(`ಠ_ಠ it's noisy on port ${PORT}`);
+  console.log(`ಠ_ಠ it's noisy on port ${PORT}`);
 });
