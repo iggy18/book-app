@@ -13,18 +13,22 @@ app.use(express.static('public'))
 
 app.set('view engine', 'ejs');
 
-function createSEarch(req, res){
-    let url = `https`
+function createSearch(req, res) {
+  let url = `https`;
 }
 
-app.get('/', (req, res) =>{
-    res.send('hello world');
+app.get('/', (req, res) => {
+  res.send('hello world');
 });
 
 app.get('/hello', (req, res) => {
-    res.render('pages/index');
+  res.render('pages/index');
 });
 
-app.listen(PORT, () =>{
-    console.log( `ಠ_ಠ it's noisy on port ${PORT}` );
+app.get('/search/new', (req, res) => {
+  res.render('pages/searches/new');
+});
+
+app.listen(PORT, () => {
+  console.log(`ಠ_ಠ it's noisy on port ${PORT}`);
 });
