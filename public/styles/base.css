@@ -1,16 +1,14 @@
+@import url(./reset.css);
+@import url(./modules.css);
+
 .container{
     background: rgb(65, 65, 65);
     color: white;
-    width: 98vw;
+    width: 100vw;
+    /* overflow-x: hidden;
+    overflow-y: scroll; */
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    flex-wrap: wrap;
-    overflow: hidden;
-    overflow-y: scroll;
-}
-
-.book{
-    justify-content: center;
-    justify-items: center;
-    color: black;
+    align-items: center;
 }
