@@ -5,7 +5,6 @@ const superagent = require('superagent');
 const dotenv = require('dotenv');
 const { response } = require('express');
 const app = express();
-let books;
 
 dotenv.config();
 
@@ -34,10 +33,12 @@ function createSearch(req, res) {
 
     superagent.get(url)
         .then(data => {
-            books = data.body.items.map(book => new Book(book))
-            res.send(books);
+            let books = data.body.items.map(book => new Book(book))
+            res.render('pages/searches/show', { arrayOfBooks: books });
         })
-        .catch(err => console.error(err))
+        .catch(err => {
+            res.render('pages/error', { error: err});
+        });
 }
 
 app.get('/', (req, res) => {
@@ -48,14 +49,17 @@ app.get('/hello', (req, res) => {
     res.render('pages/index');
 });
 
-app.get('/searches/show', (req, res) => {
-    res.render('pages/searches/show', {arrayOfBooks:books});
-});
-
 app.get('/searches/new', (req, res) => {
     res.render('pages/searches/new');
 });
 
+app.get('*', (req, res) => {
+    try {
+        nope();
+    } catch(err) {
+        res.status(404).render('pages/error', { error: err });
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`ಠ_ಠ it's noisy on port ${PORT}`);
