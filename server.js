@@ -19,15 +19,26 @@ app.post('/searches', createSearch);
 
 
 function Book(book) {
-    let coverURL = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : `https://i.imgur.com/J5LVHEL.jpg`;
 
+    // get the image thumbnail url, and make sure its using https
+    let coverURL = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : `https://i.imgur.com/J5LVHEL.jpg`;
     if(coverURL.slice(0,5) !== 'https' && coverURL.slice(0,4) === 'http') // convert to HTTP"s"
         coverURL = 'https' + coverURL.slice(4);
 
+    // collect the isbn 13 vale, we'll ignore isbn 10 for now
+    let isbn = book.volumeInfo.industryIdentifiers.reduce( (acc, identifier) => {
+        if(identifier.type === 'ISBN_13')
+            return identifier.identifier;
+        return acc;
+    }, 0);
+
+    // assign values
     this.title = book.volumeInfo.title;
-    this.authors = book.volumeInfo.authors ? book.volumeInfo.authors : [];
+    // we're using the first author only, when listed
+    this.authors = book.volumeInfo.authors ? book.volumeInfo.authors[0] : 'Unkown';
     this.description = book.volumeInfo.description;
     this.cover = coverURL;
+    this.isbn = isbn;
 }
 
 function createSearch(req, res) {
