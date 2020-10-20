@@ -3,6 +3,8 @@ font-family: 'Heebo', sans-serif; */
 
 body{
     font-family: 'Heebo', sans-serif;
+    background: rgb(65, 65, 65);
+    font-size: 4vw;
 }
 
 .container{
