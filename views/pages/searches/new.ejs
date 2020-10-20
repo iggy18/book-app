@@ -1,27 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/public/styles/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Heebo:wght@700&display=swap"
+    rel="stylesheet">
+  <script src="https://use.fontawesome.com/51e1c352ce.js"></script>
   <title>Search</title>
 </head>
+<header>
+  <h1>Decent Books</h1>
+  <nav>
+    <i class="fas fa fa-bars"></i>
+  </nav>
+
+</header>
+<div class="banner">Search Results</div>
+
 <body>
   <form action="/searches" method="post">
     <input type="text" name="search" placeholder="Search" minlength="3" required>
-  
+
     <fieldset>
       <label>
         <input type="radio" name="search" value="title" checked required>
         Title
       </label>
-  
+    </fieldset>
+
+    <fieldset>
       <label>
         <input type="radio" name="search" value="author" required>
         Author
       </label>
     </fieldset>
-  
+
     <button type="submit">Search all the books!</button>
   </form>
 </body>
+
 </html>

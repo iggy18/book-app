@@ -1,21 +1,16 @@
+/* font-family: 'Alfa Slab One', cursive;
+font-family: 'Heebo', sans-serif; */
 
-.fa-bars {
-    float: right;
+body{
+    font-family: 'Heebo', sans-serif;
 }
+
 .container{
     background: rgb(65, 65, 65);
     color: white;
-    width: 98vw;
+    width: 100vw;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    flex-wrap: wrap;
-    overflow: hidden;
-    overflow-y: scroll;
-}
-
-.book{
-    width: 75vw;
-    justify-content: center;
-    justify-items: center;
-    color: black;
+    align-items: center;
 }
