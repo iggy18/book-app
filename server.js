@@ -3,14 +3,13 @@
 const express = require('express');
 const superagent = require('superagent');
 const dotenv = require('dotenv');
-const { response } = require('express');
 const app = express();
 
 dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 
-app.use(express.static('public'))
+app.use(express.static('public'));
 
 app.use(express.urlencoded({ extended: true })); // parses form data from incoming request and put into body
 
@@ -26,7 +25,7 @@ function Book(book) {
         coverURL = 'https' + coverURL.slice(4);
 
     this.title = book.volumeInfo.title;
-    this.authors = book.volumeInfo.authors;
+    this.authors = book.volumeInfo.authors ? book.volumeInfo.authors : [];
     this.description = book.volumeInfo.description;
     this.cover = coverURL;
 }
@@ -38,6 +37,7 @@ function createSearch(req, res) {
 
     superagent.get(url)
         .then(data => {
+            console.log(data.body.items);
             let books = data.body.items.map(book => new Book(book))
             res.render('pages/searches/show', { arrayOfBooks: books });
         })
@@ -47,10 +47,6 @@ function createSearch(req, res) {
 }
 
 app.get('/', (req, res) => {
-    res.send('hello world');
-});
-
-app.get('/hello', (req, res) => {
     res.render('pages/index');
 });
 
