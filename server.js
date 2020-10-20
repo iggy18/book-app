@@ -20,10 +20,15 @@ app.post('/searches', createSearch);
 
 
 function Book(book) {
+    let coverURL = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : `https://i.imgur.com/J5LVHEL.jpg`;
+
+    if(coverURL.slice(0,5) !== 'https' && coverURL.slice(0,4) === 'http')
+        coverURL = 'https' + coverURL.slice(4);
+
     this.title = book.volumeInfo.title;
     this.authors = book.volumeInfo.authors;
-    this.cover = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : `https://i.imgur.com/J5LVHEL.jpg`;
     this.description = book.volumeInfo.description;
+    this.cover = coverURL;
 }
 
 function createSearch(req, res) {
