@@ -27,12 +27,12 @@ function Book(book) {
 function createSearch(req, res) {
     let search = req.body.search[0];
     let type = req.body.search[1];
-    let url = `https://www.googleapis.com/books/v1/volumes?q=+in${type}:${search}`;
+    let url = `https://www.googleapis.com/books/v1/volumes?q=+in${type}:${search}&maxResults=10`;
 
     superagent.get(url)
         .then(data => {
-            console.log(data)
-            res.json(data);
+            console.log(data.text.items)
+            res.json(data.text);
         })
         .catch(err => console.error(err))
 }
