@@ -19,25 +19,26 @@
 </header>
 <div class="banner">Search Results</div>
 
-<body>
-  <form action="/searches" method="post">
-    <input type="text" name="search" placeholder="Search" minlength="3" required>
 
+<body>
+  <form class="container" action="/searches" method="post">
     <fieldset>
+      <input type="text" name="search" placeholder="Search" minlength="3" required>
+
       <label>
         <input type="radio" name="search" value="title" checked required>
         Title
       </label>
-    </fieldset>
 
-    <fieldset>
+
+
       <label>
         <input type="radio" name="search" value="author" required>
         Author
       </label>
-    </fieldset>
 
-    <button type="submit">Search all the books!</button>
+      <button type="submit">Search all the books!</button>
+    </fieldset>
   </form>
 </body>
 
