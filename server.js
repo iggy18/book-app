@@ -3,7 +3,9 @@
 const express = require('express');
 const superagent = require('superagent');
 const dotenv = require('dotenv');
+const { response } = require('express');
 const app = express();
+let books;
 
 dotenv.config();
 
@@ -19,20 +21,21 @@ app.post('/searches', createSearch);
 
 
 function Book(book) {
-    this.title = book.title;
-    this.author = book.author;
-    this.cover = book.img_url || `https://i.imgur.com/J5LVHEL.jpg`;
+    this.title = book.volumeInfo.title;
+    this.authors = book.volumeInfo.authors;
+    this.cover = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : `https://i.imgur.com/J5LVHEL.jpg`;
+    this.description = book.volumeInfo.description;
 }
 
 function createSearch(req, res) {
     let search = req.body.search[0];
     let type = req.body.search[1];
-    let url = `https://www.googleapis.com/books/v1/volumes?q=+in${type}:${search}&maxResults=10`;
+    let url = `https://www.googleapis.com/books/v1/volumes?q=+in${type}:${search}&orderBy=relevance&maxResults=10`;
 
     superagent.get(url)
         .then(data => {
-            console.log(data.text.items)
-            res.json(data.text);
+            books = data.body.items.map(book => new Book(book))
+            res.send(books);
         })
         .catch(err => console.error(err))
 }
@@ -43,6 +46,10 @@ app.get('/', (req, res) => {
 
 app.get('/hello', (req, res) => {
     res.render('pages/index');
+});
+
+app.get('/searches/show', (req, res) => {
+    res.render('pages/searches/show', {arrayOfBooks:books});
 });
 
 app.get('/searches/new', (req, res) => {
