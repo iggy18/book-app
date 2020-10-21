@@ -1,17 +1,19 @@
 'use strict';
 
+require('dotenv').config();
 const express = require('express');
 const superagent = require('superagent');
-const dotenv = require('dotenv');
+const pg = require('pg');
+const cors = require('cors');
 const app = express();
 
-dotenv.config();
 
 const PORT = process.env.PORT || 3000;
+const client = new pg.Client(process.env.DATABASE_URL);
 
 app.use(express.static('public'));
-
 app.use(express.urlencoded({ extended: true })); // parses form data from incoming request and put into body
+app.use(cors());
 
 app.set('view engine', 'ejs');
 
@@ -58,7 +60,15 @@ function createSearch(req, res) {
 }
 
 app.get('/', (req, res) => {
-    res.render('pages/index');
+    let SQL = 'SELECT * FROM books;';
+
+    return client.query(SQL)
+        .then(result => {
+            console.log(result.rows);
+            res.render('pages/index', { books : result.rows });
+        })
+        .catch(err => console.error(err));
+
 });
 
 app.get('/searches/new', (req, res) => {
@@ -67,12 +77,15 @@ app.get('/searches/new', (req, res) => {
 
 app.get('*', (req, res) => {
     try {
-        nope();
+        throw 'Page does not exist!';
     } catch(err) {
+        console.error(err);
         res.status(404).render('pages/error', { error: err });
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`ಠ_ಠ it's noisy on port ${PORT}`);
+client.connect( () => {
+    app.listen(PORT, () => {
+        console.log(`ಠ_ಠ it's noisy on port ${PORT}`);
+    });
 });
