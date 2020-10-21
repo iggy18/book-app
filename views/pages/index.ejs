@@ -6,6 +6,12 @@
         <link rel="stylesheet" href="styles/base.css">
     </head>
     <body>
-        <%- include('./books/show', { books : books }) %>
+
+        <% books.forEach(book => { %>
+            <%- include('./books/show', { book : book }) %>
+            
+        <% }) %>
+
+
     </body>
 </html>

@@ -75,6 +75,10 @@ app.get('/searches/new', (req, res) => {
     res.render('pages/searches/new');
 });
 
+app.get('/books/:id', (req, res) => {
+    res.render('pages/books/show')
+});
+
 app.get('*', (req, res) => {
     try {
         throw 'Page does not exist!';
