@@ -1,0 +1,11 @@
+<div class="container">
+  <p>Total books: <%= books.length %></p>
+  <% books.forEach(book => { %>
+  <div class="book">
+      <img src="<%= book.cover %>">
+      <h2><%= book.title %></h2>
+      <h3><%= book.author %></h3>
+      <p><%= book.description %></p>
+  </div>
+  <% }); %>
+</div>
