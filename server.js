@@ -5,6 +5,7 @@ const express = require('express');
 const superagent = require('superagent');
 const pg = require('pg');
 const cors = require('cors');
+const { response } = require('express');
 const app = express();
 
 
@@ -24,12 +25,12 @@ function Book(book) {
 
     // get the image thumbnail url, and make sure its using https
     let coverURL = book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : `https://i.imgur.com/J5LVHEL.jpg`;
-    if(coverURL.slice(0,5) !== 'https' && coverURL.slice(0,4) === 'http') // convert to HTTP"s"
+    if (coverURL.slice(0, 5) !== 'https' && coverURL.slice(0, 4) === 'http') // convert to HTTP"s"
         coverURL = 'https' + coverURL.slice(4);
 
     // collect the isbn 13 vale, we'll ignore isbn 10 for now
-    let isbn = book.volumeInfo.industryIdentifiers.reduce( (acc, identifier) => {
-        if(identifier.type === 'ISBN_13')
+    let isbn = book.volumeInfo.industryIdentifiers.reduce((acc, identifier) => {
+        if (identifier.type === 'ISBN_13')
             return identifier.identifier;
         return acc;
     }, 0);
@@ -55,7 +56,7 @@ function createSearch(req, res) {
             res.render('pages/searches/show', { arrayOfBooks: books });
         })
         .catch(err => {
-            res.render('pages/error', { error: err});
+            res.render('pages/error', { error: err });
         });
 }
 
@@ -65,7 +66,7 @@ app.get('/', (req, res) => {
     return client.query(SQL)
         .then(result => {
             console.log(result.rows);
-            res.render('pages/index', { books : result.rows });
+            res.render('pages/index', { books: result.rows });
         })
         .catch(err => console.error(err));
 
@@ -75,16 +76,26 @@ app.get('/searches/new', (req, res) => {
     res.render('pages/searches/new');
 });
 
+app.get('/books/:id', (req, res) => {
+    let SQL = 'SELECT * FROM books WHERE id=$1;';
+    let values = [req.params.id];
+    return client.query(SQL, values)
+        .then(results => {
+            res.render('pages/books/show', {book:results.rows[0]});
+        })
+        .catch(err => console.error(err));
+});
+
 app.get('*', (req, res) => {
     try {
         throw 'Page does not exist!';
-    } catch(err) {
+    } catch (err) {
         console.error(err);
         res.status(404).render('pages/error', { error: err });
     }
 });
 
-client.connect( () => {
+client.connect(() => {
     app.listen(PORT, () => {
         console.log(`ಠ_ಠ it's noisy on port ${PORT}`);
     });
