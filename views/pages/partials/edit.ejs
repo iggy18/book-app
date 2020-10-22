@@ -1,0 +1,9 @@
+<form id="edit-form" action="/books/<%= book.id %>?_method=PUT" method="post">
+    <input type="text" name="title" value="<%= book.title %>">
+    <input type="text" name="authors" value="<%= book.authors %>">
+    <textarea name="description"><%= book.description %></textarea>
+    <input type="text" name="isbn" value="<%= book.isbn %>">
+    <input type="hidden" name="cover" value="<%= book.cover %>">
+
+    <button id="save-updates-button">update book</button>
+</form>

@@ -1,50 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Heebo:wght@700&display=swap"
-        rel="stylesheet">
-    <script src="https://use.fontawesome.com/51e1c352ce.js"></script>
-    <title>Decent Book Results</title>
-</head>
+<%- include('../../layout/head') %>
 
 <body>
-    <header>
-        <h1>Decent Books</h1>
-        <nav>
-            <i class="fas fa fa-bars"></i>
-        </nav>
-
-    </header>
+    <%- include('../../layout/header') %>
     <div class="banner">Search Results</div>
 
-    <div class="container">
+    <div class="books">
         <% arrayOfBooks.forEach(book => { %>
-        <div class="book">
-            <img src="<%= book.cover %>">
-            <h2><%= book.title %></h2>
-            <% book.authors.forEach(author => { %>
-            <h3><%= author %></h3>
-            <% }); %>
-            <p><%= book.description %></p>
-        </div>
+          <%- include('../partials/plain', {book:book}) %>
         <% }); %>
     </div>
+
+    <%- include('../../layout/footer') %>
 </body>
 
 </html>
-
-<!-- <div class="container">
-  <p>Total books: <%= books.length %></p>
-  <% books.forEach(book => { %>
-    <div class="book">
-        <img src="<%= book.cover %>">
-        <h2><%= book.title %></h2>
-        <h3><%= book.author %></h3>
-        <p><%= book.description %></p>
-    </div>
-    <% }); %>
-  </div> -->

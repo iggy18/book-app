@@ -5,10 +5,8 @@
     <%- include('../../layout/header') %> 
     <div class="banner">book details</div>
     <section class="container">
-        <img src="<%= book.cover %>"> 
-        <h3><%= book.title %></h3>
-        <h4><%= book.author %></h4>
-        <%- include('detail', {book:book})  %> 
+        <%- include('../partials/detail', {book:book}) %> 
     </section> 
+    <%- include('../../layout/footer') %>
 </body>
 </html>
