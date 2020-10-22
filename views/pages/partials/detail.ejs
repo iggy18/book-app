@@ -1,0 +1,19 @@
+<section class="book">
+  
+    <img src="<%= book.cover %>">
+    <div id="book-details">
+        <h3><%= book.title %></h3>
+        <h4><%= book.authors %></h4>
+        <p><%= book.description %><p>
+        <h5><%= book.isbn %></h5>
+
+        <button id="update-button">update details</button>
+
+        <form action="/books/<%= book.id %>/delete?_method=DELETE" method="post">
+            <button id="delete-button">delete book</button>
+        </form>
+        
+    </div>
+    <%- include('./edit') %>
+
+</section>
