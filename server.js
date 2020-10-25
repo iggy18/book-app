@@ -35,12 +35,12 @@ function getLibrary(req, res) {
     return client.query(SQL)
         .then(result => {
             // console.log(result.rows);
-            res.render('pages/index', { books : result.rows, flag : true });
+            res.render('pages/index', { books: result.rows, flag: true });
         })
         .catch(err => handleError(err, res));
 }
 
-function newSearch (req, res) {
+function newSearch(req, res) {
     res.render('pages/searches/new');
 }
 
@@ -51,10 +51,13 @@ function createSearch(req, res) {
 
     superagent.get(url)
         .then(data => {
-            console.log('SUPERAGENT', data.body.items[0].volumeInfo.authors);
+            console.log('SUPERAGENT', data.body.items);
+            if (!data.body.items) {
+                res.render('pages/searches/noResults')
+            }
             let books = data.body.items.map(book => new Book(book))
             console.log('BOOKS', books);
-            res.render('pages/searches/show', { arrayOfBooks: books , flag : false });
+            res.render('pages/searches/show', { arrayOfBooks: books, flag: false });
         })
         .catch(err => handleError(err, res));
 }
@@ -64,7 +67,7 @@ function getBookDetails(req, res) {
     let values = [req.params.id];
     return client.query(SQL, values)
         .then(results => {
-            res.render('pages/books/show', {book:results.rows[0], flag: flag });
+            res.render('pages/books/show', { book: results.rows[0], flag: flag });
         })
         .catch(err => handleError(err, res));
 }
@@ -103,13 +106,13 @@ function saveBook(req, res) {
     let values = [isbn];
 
     return client.query(SQL, values)
-        .then( results => {
+        .then(results => {
             let alreadySaved = results.rows.length;
 
-            if(alreadySaved) {
+            if (alreadySaved) {
                 console.log('already saved');
                 flag = true;
-                res.redirect(`/books/${ results.rows[0].id }`);
+                res.redirect(`/books/${results.rows[0].id}`);
             } else {
                 SQL = 'INSERT INTO books(authors, title, description, cover, isbn) VALUES ($1, $2, $3, $4, $5) RETURNING id;';
                 values = [authors, title, description, cover, isbn];
@@ -119,7 +122,7 @@ function saveBook(req, res) {
 
                 return client.query(SQL, values)
                     // .then(console.log(results.rows[0].id))
-                    .then(results => res.redirect(`/books/${ results.rows[0].id }`))
+                    .then(results => res.redirect(`/books/${results.rows[0].id}`))
                     .catch(err => handleError(err, res));
             }
 
@@ -160,7 +163,9 @@ function Book(book) {
     }, 0);
 
     let authors = book.volumeInfo.authors;
-    if(authors.length > 1)
+    if (!authors)
+        authors = 'unknown';
+    else if (authors.length > 1)
         authors = authors.join(', ');
     else
         authors = authors[0];
