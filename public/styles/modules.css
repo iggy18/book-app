@@ -96,12 +96,13 @@ button{
     font-size: 4vw;
 }
 
-.dropdown-content a{
+a{
     padding:2vw;
     display: block;
     text-decoration: none;
     background: rgb(65,65,65);
     color:rgb(176, 176, 176);
+    min-width: 50vw;
 }
 
 
@@ -123,7 +124,7 @@ button{
     transition: all .35s ease-in-out;
 }
 
-.dropdown-content a:hover{
+a:hover{
     color: rgb(65,65,65);
     background:rgb(176, 176, 176);
 }
