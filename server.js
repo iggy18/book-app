@@ -35,6 +35,7 @@ function getLibrary(req, res) {
     return client.query(SQL)
         .then(result => {
             // console.log(result.rows);
+            console.log(result.rows);
             res.render('pages/index', { books: result.rows, flag: true });
         })
         .catch(err => handleError(err, res));
